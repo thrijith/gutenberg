@@ -2,8 +2,13 @@
 
 ## Unreleased
 
+### New Feature
+
+-   You may now specify specific configuration for different environments using `env.tests` or `env.development` in `.wp-env.json`.
+
 ### Bug Fixes
 
+-   The `config` and `mappings` options in `.wp-env.json` are now merged with any overrides instead of being overwritten.
 -   `wp-env destroy` now removes dangling docker volumes and networks associated with the WordPress environment.
 
 ## 1.4.0 (2020-05-28)
