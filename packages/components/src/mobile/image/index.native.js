@@ -16,7 +16,7 @@ import { useEffect, useState } from '@wordpress/element';
  * Internal dependencies
  */
 import { MediaEdit } from '../media-edit';
-import { getImageWithFocalPointStyles } from '../image-with-focalpoint';
+import { getImageWithFocalPointStyles } from './utils';
 import styles from './style.scss';
 import SvgIconRetry from './icon-retry';
 import SvgIconCustomize from './icon-customize';
