@@ -5,6 +5,7 @@ import { View, TouchableWithoutFeedback } from 'react-native';
 import {
 	requestImageFailedRetryDialog,
 	requestImageUploadCancelDialog,
+	requestImageFullscreenPreview,
 	mediaUploadSync,
 } from 'react-native-gutenberg-bridge';
 import Video from 'react-native-video';
@@ -15,7 +16,7 @@ import Video from 'react-native-video';
 import { __ } from '@wordpress/i18n';
 import {
 	Icon,
-	ImageWithFocalPoint,
+	Image,
 	PanelBody,
 	RangeControl,
 	ToolbarButton,
@@ -121,6 +122,14 @@ const Cover = ( {
 		id && getProtocol( url ) === 'file:'
 	);
 
+	const [ isMediaSelected, setMediaSelected ] = useState( false );
+
+	// Check if Innerblocks are selected to reset isMediaSelected
+
+	if ( ! isParentSelected && isMediaSelected ) {
+		setMediaSelected( false );
+	}
+
 	// don't show failure if upload is in progress
 	const shouldShowFailure = didUploadFail && ! isUploadInProgress;
 
@@ -147,6 +156,10 @@ const Cover = ( {
 			requestImageUploadCancelDialog( id );
 		} else if ( shouldShowFailure ) {
 			requestImageFailedRetryDialog( id );
+		} else if ( backgroundType === MEDIA_TYPE_IMAGE && isMediaSelected ) {
+			requestImageFullscreenPreview( url );
+		} else if ( backgroundType === MEDIA_TYPE_IMAGE ) {
+			setMediaSelected( true );
 		}
 	};
 
@@ -269,12 +282,22 @@ const Cover = ( {
 						setAttributes( { id: undefined, url: undefined } );
 					} }
 				/>
+
 				{ IMAGE_BACKGROUND_TYPE === backgroundType && (
-					<ImageWithFocalPoint
-						focalPoint={ focalPoint }
-						url={ url }
-					/>
+					<View style={ styles.imageContainer }>
+						<Image
+							focalPoint={ focalPoint }
+							isSelected={ isMediaSelected }
+							isUploadFailed={ didUploadFail }
+							isUploadInProgress={ isUploadInProgress }
+							onSelectMediaUploadOption={ onSelectMedia }
+							openMediaOptions={ openMediaOptions }
+							url={ url }
+							withFocalPoint={ true }
+						/>
+					</View>
 				) }
+
 				{ VIDEO_BACKGROUND_TYPE === backgroundType && (
 					<Video
 						muted
@@ -322,14 +345,16 @@ const Cover = ( {
 				<InnerBlocks template={ INNER_BLOCKS_TEMPLATE } />
 			</View>
 
-			<View pointerEvents="none" style={ overlayStyles }>
-				{ gradientValue && (
-					<Gradient
-						gradientValue={ gradientValue }
-						style={ styles.background }
-					/>
-				) }
-			</View>
+			{ ! isMediaSelected && (
+				<View pointerEvents="none" style={ overlayStyles }>
+					{ gradientValue && (
+						<Gradient
+							gradientValue={ gradientValue }
+							style={ styles.background }
+						/>
+					) }
+				</View>
+			) }
 
 			<MediaUpload
 				allowedTypes={ ALLOWED_MEDIA_TYPES }

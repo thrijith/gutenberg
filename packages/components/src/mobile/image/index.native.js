@@ -27,6 +27,8 @@ const ICON_TYPE = {
 	UPLOAD: 'upload',
 };
 
+const DEFAULT_FOCAL_POINT = { x: 0.5, y: 0.5 };
+
 function editImageComponent( { open, mediaOptions } ) {
 	return (
 		<TouchableWithoutFeedback onPress={ open }>
@@ -56,7 +58,8 @@ const ImageComponent = ( {
 	url,
 	width: imageWidth,
 	height: imageHeight,
-	focalPoint,
+	focalPoint: focalPointValues,
+	withFocalPoint = false,
 } ) => {
 	const [ imageData, setImageData ] = useState( null );
 	const [ containerSize, setContainerSize ] = useState( null );
@@ -72,6 +75,11 @@ const ImageComponent = ( {
 			} );
 		}
 	}, [ url ] );
+
+	const focalPoint =
+		withFocalPoint && focalPointValues
+			? focalPointValues
+			: DEFAULT_FOCAL_POINT;
 
 	const onContainerLayout = ( event ) => {
 		const { height, width } = event.nativeEvent.layout;
@@ -131,7 +139,7 @@ const ImageComponent = ( {
 					? imageHeight
 					: undefined,
 		},
-		focalPoint &&
+		withFocalPoint &&
 			imageData && {
 				width: imageWidth || '100%',
 				...styles.imageWithFocalPoint,
@@ -143,13 +151,15 @@ const ImageComponent = ( {
 			aspectRatio: imageData?.aspectRatio,
 			opacity: isUploadInProgress ? 0.3 : 1,
 		},
-		focalPoint && [
+		withFocalPoint && [
+			imageWidth &&
+				containerSize?.height > imageWidth && { height: '100%' },
+			! imageWidth && { height: containerSize?.height },
 			getImageWithFocalPointStyles(
 				focalPoint,
 				containerSize,
 				imageData
 			),
-			containerSize?.height > imageWidth && { height: '100%' },
 		],
 	];
 
@@ -192,11 +202,11 @@ const ImageComponent = ( {
 					<Image
 						style={ containerSize && imageStyles }
 						source={ { uri: url } }
-						{ ...( ! focalPoint && { resizeMethod: 'scale' } ) }
+						{ ...( ! withFocalPoint && { resizeMethod: 'scale' } ) }
 					/>
 				) }
 
-				{ isUploadFailed && (
+				{ isUploadFailed && retryMessage && (
 					<View
 						style={ [
 							styles.imageContainer,
@@ -214,7 +224,7 @@ const ImageComponent = ( {
 				{ isSelected &&
 					! isUploadInProgress &&
 					! isUploadFailed &&
-					( imageData || focalPoint ) && (
+					( imageData || withFocalPoint ) && (
 						<MediaEdit
 							onSelect={ onSelectMediaUploadOption }
 							source={ { uri: url } }
