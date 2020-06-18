@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { View, TouchableWithoutFeedback } from 'react-native';
+import { Animated, View, TouchableWithoutFeedback } from 'react-native';
 import {
 	requestImageFailedRetryDialog,
 	requestImageUploadCancelDialog,
@@ -37,7 +37,7 @@ import {
 } from '@wordpress/block-editor';
 import { compose, withPreferredColorScheme } from '@wordpress/compose';
 import { withSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import { cover as icon, replace } from '@wordpress/icons';
 import { getProtocol } from '@wordpress/url';
 
@@ -99,6 +99,10 @@ const Cover = ( {
 		gradientValue
 	);
 
+	const [ isMediaSelected, setMediaSelected ] = useState( false );
+
+	const mediaSelectedAnimation = useRef( new Animated.Value( 1 ) ).current;
+
 	// Used to set a default color for its InnerBlocks
 	// since there's no system to inherit styles yet
 	// the RichText component will check if there are
@@ -114,6 +118,10 @@ const Cover = ( {
 	// sync with local media store
 	useEffect( mediaUploadSync, [] );
 
+	useEffect( () => {
+		startMediaSelectedAnimation();
+	}, [ isMediaSelected ] );
+
 	// initialize uploading flag to false, awaiting sync
 	const [ isUploadInProgress, setIsUploadInProgress ] = useState( false );
 
@@ -121,8 +129,6 @@ const Cover = ( {
 	const [ didUploadFail, setDidUploadFail ] = useState(
 		id && getProtocol( url ) === 'file:'
 	);
-
-	const [ isMediaSelected, setMediaSelected ] = useState( false );
 
 	// Check if Innerblocks are selected to reset isMediaSelected
 
@@ -132,6 +138,14 @@ const Cover = ( {
 
 	// don't show failure if upload is in progress
 	const shouldShowFailure = didUploadFail && ! isUploadInProgress;
+
+	const startMediaSelectedAnimation = () => {
+		Animated.timing( mediaSelectedAnimation, {
+			toValue: isMediaSelected ? 0 : 1,
+			duration: 300,
+			useNativeDriver: true,
+		} ).start();
+	};
 
 	const onSelectMedia = ( media ) => {
 		setDidUploadFail( false );
@@ -254,7 +268,10 @@ const Cover = ( {
 		>
 			<View style={ [ styles.background, backgroundColor ] }>
 				{ getMediaOptions() }
-				{ isParentSelected && toolbarControls( openMediaOptions ) }
+				{ isParentSelected &&
+					( isMediaSelected ||
+						backgroundType === VIDEO_BACKGROUND_TYPE ) &&
+					toolbarControls( openMediaOptions ) }
 				<MediaUploadProgress
 					mediaId={ id }
 					onUpdateMediaProgress={ () => {
@@ -345,8 +362,17 @@ const Cover = ( {
 				<InnerBlocks template={ INNER_BLOCKS_TEMPLATE } />
 			</View>
 
-			{ ! isMediaSelected && (
-				<View pointerEvents="none" style={ overlayStyles }>
+			<Animated.View
+				pointerEvents="none"
+				style={ {
+					width: '100%',
+					height: '100%',
+					position: 'absolute',
+					zIndex: 2,
+					opacity: mediaSelectedAnimation,
+				} }
+			>
+				<View style={ overlayStyles }>
 					{ gradientValue && (
 						<Gradient
 							gradientValue={ gradientValue }
@@ -354,7 +380,7 @@ const Cover = ( {
 						/>
 					) }
 				</View>
-			) }
+			</Animated.View>
 
 			<MediaUpload
 				allowedTypes={ ALLOWED_MEDIA_TYPES }
