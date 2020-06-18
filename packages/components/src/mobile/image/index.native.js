@@ -175,7 +175,7 @@ const ImageComponent = ( {
 			onLayout={ onContainerLayout }
 		>
 			<View
-				accessible={ true }
+				accessible
 				disabled={ ! isSelected }
 				accessibilityLabel={ alt }
 				accessibilityHint={ __( 'Double tap and hold to edit' ) }
