@@ -309,7 +309,7 @@ const Cover = ( {
 							onSelectMediaUploadOption={ onSelectMedia }
 							openMediaOptions={ openMediaOptions }
 							url={ url }
-							withFocalPoint={ true }
+							withFocalPoint
 						/>
 					</View>
 				) }
@@ -363,13 +363,12 @@ const Cover = ( {
 
 			<Animated.View
 				pointerEvents="none"
-				style={ {
-					width: '100%',
-					height: '100%',
-					position: 'absolute',
-					zIndex: 2,
-					opacity: mediaSelectedAnimation,
-				} }
+				style={ [
+					styles.overlayContainer,
+					{
+						opacity: mediaSelectedAnimation,
+					},
+				] }
 			>
 				<View style={ overlayStyles }>
 					{ gradientValue && (
