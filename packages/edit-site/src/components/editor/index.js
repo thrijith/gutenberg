@@ -145,6 +145,7 @@ function Editor() {
 		} ),
 		[ page.context ]
 	);
+
 	return (
 		<>
 			<EditorStyles styles={ settings.styles } />
