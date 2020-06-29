@@ -82,7 +82,7 @@ function getSelectedMenu( selectedCreateOption ) {
  * @return {WPBlock[]} An array of blocks.
  */
 function mapMenuItemsToBlocks( nodes ) {
-	return nodes.map( ( { title, type, link: url, id, children } ) => {
+	return nodes.map( ( { title, type, children, object_id: id } ) => {
 		const innerBlocks =
 			children && children.length ? mapMenuItemsToBlocks( children ) : [];
 
@@ -91,7 +91,6 @@ function mapMenuItemsToBlocks( nodes ) {
 			{
 				type,
 				id,
-				url,
 				label: ! title.rendered
 					? __( '(no title)' )
 					: escape( title.rendered ),
@@ -130,11 +129,10 @@ function convertPagesToBlocks( pages ) {
 		return null;
 	}
 
-	return pages.map( ( { title, type, link: url, id } ) =>
+	return pages.map( ( { title, type, id } ) =>
 		createBlock( 'core/navigation-link', {
 			type,
 			id,
-			url,
 			label: ! title.rendered
 				? __( '(no title)' )
 				: escape( title.rendered ),
