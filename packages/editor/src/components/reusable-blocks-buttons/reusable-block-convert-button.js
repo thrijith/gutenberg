@@ -14,7 +14,6 @@ import { compose } from '@wordpress/compose';
 import { BlockSettingsMenuControls } from '@wordpress/block-editor';
 import { reusableBlock } from '@wordpress/icons';
 
-
 export function ReusableBlockConvertButton( {
 	isVisible,
 	isReusable,
