@@ -42,12 +42,14 @@ function Example() {
 	const suffixMarkup = props.suffix ? <div>{ props.suffix }</div> : null;
 
 	return (
-		<InputControl
-			{ ...props }
-			onChange={ ( v ) => setValue( v ) }
-			suffix={ suffixMarkup }
-			value={ value }
-		/>
+		<div style={ { padding: 20 } }>
+			<InputControl
+				{ ...props }
+				onChange={ ( v ) => setValue( v ) }
+				suffix={ suffixMarkup }
+				value={ value }
+			/>
+		</div>
 	);
 }
 
