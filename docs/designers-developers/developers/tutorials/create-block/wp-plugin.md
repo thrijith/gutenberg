@@ -48,7 +48,7 @@ The script created a PHP file `gutenpride.php` that is the main plugin file. At 
 
 -or-
 
-(3B) If you are using `wp-env`, see [Development Environment setup](devenv.md), then you should now run from inside the `gutenpride` directory:
+(3B) If you are using `wp-env`, see [Development Environment setup](/docs/designers-developers/developers/tutorials/devenv/devenv.md), then you should now run from inside the `gutenpride` directory:
 
 ```
 wp-env start
