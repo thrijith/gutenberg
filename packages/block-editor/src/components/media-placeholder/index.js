@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { every, get, isArray, noop, startsWith } from 'lodash';
+import { every, isArray, noop, startsWith } from 'lodash';
 import classnames from 'classnames';
 
 /**
@@ -80,15 +80,14 @@ export class MediaPlaceholder extends Component {
 	}
 
 	componentDidMount() {
-		this.setState( { src: get( this.props.value, [ 'src' ], '' ) } );
+		this.setState( { src: this.props.value?.src ?? '' } );
 	}
 
 	componentDidUpdate( prevProps ) {
 		if (
-			get( prevProps.value, [ 'src' ], '' ) !==
-			get( this.props.value, [ 'src' ], '' )
+			( prevProps.value?.src ?? '' ) !== ( this.props.value?.src ?? '' )
 		) {
-			this.setState( { src: get( this.props.value, [ 'src' ], '' ) } );
+			this.setState( { src: this.props.value?.src ?? '' } );
 		}
 	}
 
