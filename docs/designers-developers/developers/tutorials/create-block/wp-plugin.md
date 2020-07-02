@@ -16,17 +16,16 @@ A WordPress plugin is a set of files in a directory within the site's `wp-conten
 
 ### Generate Plugin Files
 
-(2) Once in the right directory for your environment, the next step is to
-Regardless of environment, run the Run the following command to generate plugin files:
+(2) Once in the right directory for your environment, the next step is to run run the following command to generate plugin files:
 
-```
+```sh
 npx @wordpress/create-block gutenpride
 cd gutenpride
 ```
 
-All of the plugin files we develop will be in this `gutenpride` directory.
+A new directory `gutenpride` is created with all the necessary plugin files. This tutorial will walk through and explain the plugin files, please explore and become familiar with them also.
 
-The script created a PHP file `gutenpride.php` that is the main plugin file. At the top of this file is the appropriate Plugin Header comment block which defines the plugin.
+The main plugin file created is the PHP file `gutenpride.php`, at the top of this file is the Plugin Header comment block that defines the plugin.
 
 ```php
 /**
@@ -54,14 +53,13 @@ The script created a PHP file `gutenpride.php` that is the main plugin file. At 
 wp-env start
 ```
 
-This will start your local WordPress site and use the current directory as your plugin directory. In your browser, go to https://localhost:8888/wp-admin/ and login, the default username is "admin" and password is "password", no quotes.
+This will start your local WordPress site and use the current directory as your plugin directory. In your browser, go to [https://localhost:8888/wp-admin/] and login, the default username is "admin" and password is "password", no quotes.
 
 ### Confirm Plugin Installed
 
 The generated plugin should now be listed on the Plugins admin page in your WordPress install. Switch WorPress to the plugins page and activate.
 
-For more on creating a WordPress plugin see [Plugin Basics](https://developer.wordpress.org/plugins/plugin-basics/), and [Plugin Header requirements](https://developer.wordpress.org/plugins/plugin-basics/header-requirements/) for explanation and additional fields you can include in your plugin
-header.
+For more on creating a WordPress plugin see [Plugin Basics](https://developer.wordpress.org/plugins/plugin-basics/), and [Plugin Header requirements](https://developer.wordpress.org/plugins/plugin-basics/header-requirements/) for explanation and additional fields you can include in your plugin header.
 
 ## package.json
 

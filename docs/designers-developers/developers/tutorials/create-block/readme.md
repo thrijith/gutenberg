@@ -10,7 +10,7 @@ The `@wordpress/create-block` package exists to create the necessary block scaff
 
 From your plugins directory, to create your block run:
 
-```bash
+```sh
 npx @wordpress/create-block starter-block
 ```
 
