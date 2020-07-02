@@ -126,6 +126,7 @@ export function BlockTypesTab( {
 						items={ filteredItems }
 						onSelect={ onSelectItem }
 						onHover={ onHover }
+						label={ __( 'Child Blocks' ) }
 					/>
 				</ChildBlocks>
 			) }
@@ -139,6 +140,7 @@ export function BlockTypesTab( {
 							items={ suggestedItems }
 							onSelect={ onSelectItem }
 							onHover={ onHover }
+							label={ _x( 'Most used', 'blocks' ) }
 						/>
 					</InserterPanel>
 				) }
@@ -159,6 +161,7 @@ export function BlockTypesTab( {
 								items={ categoryItems }
 								onSelect={ onSelectItem }
 								onHover={ onHover }
+								label={ category.title }
 							/>
 						</InserterPanel>
 					);
@@ -173,6 +176,7 @@ export function BlockTypesTab( {
 						items={ uncategorizedItems }
 						onSelect={ onSelectItem }
 						onHover={ onHover }
+						label={ __( 'Uncategorized' ) }
 					/>
 				</InserterPanel>
 			) }
@@ -194,6 +198,7 @@ export function BlockTypesTab( {
 								items={ collectionItems }
 								onSelect={ onSelectItem }
 								onHover={ onHover }
+								label={ collection.title }
 							/>
 						</InserterPanel>
 					);
@@ -209,6 +214,7 @@ export function BlockTypesTab( {
 						items={ reusableItems }
 						onSelect={ onSelectItem }
 						onHover={ onHover }
+						label={ __( 'Reusable' ) }
 					/>
 					<a
 						className="block-editor-inserter__manage-reusable-blocks"
