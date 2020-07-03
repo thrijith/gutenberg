@@ -1,6 +1,6 @@
 # Create Block Tutorial
 
-The goal of this tutorial is to get you started creating your first block for the WordPress Block Editor. We will create a simple block that allows the user to type a message and styles it.
+Let's get you started creating your first block for the WordPress Block Editor. We will create a simple block that allows the user to type a message and styles it.
 
 The tutorial includes setting up your development environment, tools, and getting comfortable with the new development model. If you are already comfortable, try the quick start below, otherwise step through whatever part of the tutorial you need.
 

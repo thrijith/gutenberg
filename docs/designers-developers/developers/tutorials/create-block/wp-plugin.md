@@ -1,10 +1,10 @@
 # WordPress Plugin
 
-A new block in the WordPress block editor is added by creating a WordPress plugin, installing, and activating the plugin. This page covers the details of a WordPress plugin if you are not already familiar.
+A block is added to the block editor using a WordPress plugin. You can create your own plugin, and after installing and activating the plugin use the block. Let's first look at what makes up a WordPress plugin.
 
 ## Plugin Details
 
-A WordPress plugin is a set of files in a directory within the site's `wp-content/plugins` directory. For this example, we will use the `create-block` package to generate the necessary plugin files.
+A WordPress plugin is a set of files within the site's `wp-content/plugins` directory. For our tutorial, we will use the `create-block` package to generate the necessary plugin files.
 
 ### Switch to Working Directory
 
@@ -12,11 +12,11 @@ A WordPress plugin is a set of files in a directory within the site's `wp-conten
 
 -or-
 
-(1B) If you do use `wp-env` start, you can start from any directory for your project. `wp-env` will use it as a plugin directory for your site.
+(1B) If using `wp-env`, you can start from any directory for your project; `wp-env` will use map it as a plugin directory for your site.
 
 ### Generate Plugin Files
 
-(2) Once in the right directory for your environment, the next step is to run run the following command to generate plugin files:
+(2) Once in the right directory for your environment, the next step is to run the following command to generate plugin files:
 
 ```sh
 npx @wordpress/create-block gutenpride
@@ -43,11 +43,13 @@ The main plugin file created is the PHP file `gutenpride.php`, at the top of thi
 
 ### Start WordPress
 
-(3A) If you are using Local, or other environment confirm it is started and running.
+Let's confirm the plugin is loaded and working.
+
+(3A) If you are using Local, or other environment confirm your WordPress site is started.
 
 -or-
 
-(3B) If you are using `wp-env`, see [Development Environment setup](devenv.md), then you should now run from inside the `gutenpride` directory:
+(3B) If you are using `wp-env`, see [Development Environment setup](devenv.md), then you should now run this command from inside the `gutenpride` directory:
 
 ```sh
 wp-env start
@@ -63,11 +65,11 @@ For more on creating a WordPress plugin see [Plugin Basics](https://developer.wo
 
 ## package.json
 
-The package.json file defines the JavaScript properties for your project. This is a standard file used by NPM for defining properties and scripts it can run, the file and process is not specific to WordPress.
+The `package.json` file defines the JavaScript properties for your project. This is a standard file used by NPM for defining properties and scripts it can run, the file and process is not specific to WordPress.
 
-A package.json file was created with the create script, this defines the dependecies and scripts needed. you can install dependencies. The only initial dependency is the `@wordpress/scripts` package which bundles the tools and configurations needed to build blocks.
+A `package.json` file was created with the create script, this defines the dependecies and scripts needed. you can install dependencies. The only initial dependency is the `@wordpress/scripts` package that bundles the tools and configurations needed to build blocks.
 
-To use the scripts package, the `scripts` property of package.json defines the parameter called and what to run, the two main scripts are:
+In `package.json`, there is a `scripts` property that defines what command to run when using `npm run (cmd)`. In our generated `package.json` file, the two main scripts point to the commands in the `wp-scripts` package:
 
 ```json
   "scripts": {
@@ -76,13 +78,13 @@ To use the scripts package, the `scripts` property of package.json defines the p
   },
 ```
 
-These are run using: `npm run build` or `npm run start` which will call the appropriate binary and command we need.
+Sp these scripts are run by using: `npm run build` or `npm run start`
 
-Use `npm run build` for running once to create a production build.
+Use `npm run build` for running once to create a "production" build. This compresses the code down so it downloads faster, but makes it harder to read using browser tools—good for final deployment but not while developing.
 
-Use `npm run start` for creating a development build that also starts a watch process that waits and watches for changes to the file and will rebuild each time it is saved.
+Use `npm run start` for creating a "development" build, this does not compress the code so it is easier to read using browser tools. Additionally, development build will also start a watch process that waits and watches for changes to the file and will rebuild each time it is saved.
 
-By default, the build scripts looks for `src/index.js` for the JavaScript file to build and will save the built file to `build/index.js`.
+By default, the build scripts looks for `src/index.js` for the JavaScript file to build and will save the built file to `build/index.js`. In the upcoming sections, we will look closer at that script, but first let's make sure it is loaded in WordPress.
 
 ## Plugin to Load Script
 
